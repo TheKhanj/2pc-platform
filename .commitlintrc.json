@@ -30,7 +30,9 @@
       [
         "command",
         "result",
-        "resource"
+        "resource",
+        "executor",
+        "variable-storage"
       ]
     ]
   }
