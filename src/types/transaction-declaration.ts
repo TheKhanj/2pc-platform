@@ -37,5 +37,6 @@ export type Transaction = {
   id: any;
   name: string;
   status: 'active' | 'inactive';
+  variables: Record<string, any>;
   states: State[];
 };
