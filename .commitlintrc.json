@@ -32,7 +32,8 @@
         "result",
         "resource",
         "executor",
-        "variable-storage"
+        "variable-storage",
+        "session"
       ]
     ]
   }
