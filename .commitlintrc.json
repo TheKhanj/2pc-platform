@@ -34,7 +34,9 @@
         "executor",
         "variable-storage",
         "session",
-        "expression"
+        "expression",
+        "@config",
+        "@session"
       ]
     ]
   }
