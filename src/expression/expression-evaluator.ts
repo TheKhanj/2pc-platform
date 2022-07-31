@@ -1,14 +1,14 @@
-import { Expression, Path } from './types/expressions';
-import { VariableStorage } from 'src/variable-storage/variable-storage';
 import { isPath } from './utils/is-path';
+import { Expression } from './types/expressions';
+import { PathEvaluator } from './path-evaluator';
 
 export class ExpressionEvaluator {
-  constructor(private readonly storage: VariableStorage) {}
+  constructor(private readonly pathEvaluator: PathEvaluator) {}
 
   evaluate(e: Expression) {
     if (typeof e === 'string') {
       if (isPath(e)) {
-        return this.evaluatePath(e);
+        return this.pathEvaluator.evaluate(e);
       }
 
       return e;
@@ -31,9 +31,5 @@ export class ExpressionEvaluator {
       ret[evaluatedKey] = this.evaluate(e[key]);
       return ret;
     }, {});
-  }
-
-  evaluatePath(path: Path) {
-    return 0;
   }
 }
