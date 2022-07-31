@@ -27,7 +27,11 @@
     "scope-enum": [
       1,
       "always",
-      []
+      [
+        "command",
+        "result",
+        "resource"
+      ]
     ]
   }
 }
