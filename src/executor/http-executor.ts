@@ -27,7 +27,7 @@ export class HttpExecutor implements Executor {
       this.resources.commit,
     );
 
-    return this.service.call(command);
+    await this.service.call(command);
   }
 
   async rollback() {
@@ -36,6 +36,6 @@ export class HttpExecutor implements Executor {
       this.resources.commit,
     );
 
-    return this.service.call(command);
+    await this.service.call(command);
   }
 }
