@@ -1,21 +1,18 @@
-import { Logger } from '@nestjs/common';
-
 import { HttpCommand } from './http-command';
 import { HttpResource } from 'src/types/transaction-declaration';
-import { VariableStorage } from 'src/variable-storage/variable-storage';
+import { ExpressionEvaluator } from 'src/expression/expression-evaluator';
 
 export class HttpCommandFactory {
   async create(
-    storage: VariableStorage,
+    expressionEvaluator: ExpressionEvaluator,
     args: Pick<
       HttpResource,
       'method' | 'url' | 'headers' | 'body' | 'params' | 'queries'
     >,
   ): Promise<HttpCommand> {
-    Logger.warn('Not implemented yet', 'HttpCommandFactory');
-    const params = {};
-    const queries = {};
-    const body = {};
+    const params = expressionEvaluator.evaluate(args.params);
+    const queries = expressionEvaluator.evaluate(args.queries);
+    const body = expressionEvaluator.evaluate(args.body);
     return new HttpCommand(args.method, args.url, params, queries, body);
   }
 }

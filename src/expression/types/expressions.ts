@@ -10,7 +10,7 @@ export type BooleanExpression = Path | boolean;
 
 export type NumberExpression = Path | number;
 
-export type ObjectExpression = Path;
+export type ObjectExpression = Path | Record<StringExpression, StringExpression>;
 
 export type ArrayExpression<T = any> = Path | T[];
 
