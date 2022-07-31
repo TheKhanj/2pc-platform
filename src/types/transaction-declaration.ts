@@ -1,6 +1,6 @@
 import { Method } from 'axios';
 
-import { Expression, StringExpression } from './expressions';
+import { Expression, StringExpression } from '../expression/types/expressions';
 
 export type TypeDefinition = any;
 
