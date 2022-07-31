@@ -2,7 +2,7 @@ import axios from 'axios';
 import { Logger } from '@nestjs/common';
 
 import { HttpResult } from 'src/results/http-result';
-import { HttpCommand } from 'src/commands/http-command';
+import { HttpCommand } from 'src/commands/http/http-command';
 import { ResourceService } from '../types/resource-service';
 
 export class HttpResourceService
@@ -23,7 +23,7 @@ export class HttpResourceService
   }
 
   private parseUrl(url: string, params: Record<string, string>) {
-    Logger.warn('Url parsing is not implemented yet', 'UrlParser');
+    Logger.warn('Not implemented yet', 'UrlParser');
     return url;
   }
 }
