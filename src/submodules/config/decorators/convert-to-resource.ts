@@ -3,7 +3,7 @@ import { Type } from 'class-transformer';
 import { BaseResource } from 'src/types/transaction-declaration';
 import { BaseResourceDto } from '../dto/base-resource-dto';
 
-export function IsResource(
+export function ConvertToResource(
   resources: { type: BaseResource['type']; dto: any }[],
 ): PropertyDecorator {
   return Type(() => BaseResourceDto, {
