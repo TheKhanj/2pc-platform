@@ -10,7 +10,7 @@ export class HttpResourceService
   async call<T = any>(command: HttpCommand): Promise<HttpResult<T>> {
     const res = await axios.request({
       method: command.method,
-      url: this.parseUrl(command.url, command.params),
+      url: this.parseUrl(command.url, command.params || {}),
       params: command.queries,
       data: command.body,
     });
