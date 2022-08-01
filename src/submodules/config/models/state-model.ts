@@ -4,7 +4,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ResourcesModel } from './resources-model';
 import { Resource, Resources, State } from 'src/types/transaction-declaration';
 
-@Schema({ minimize: false })
+@Schema({ _id: false, minimize: false })
 export class StateModel implements State {
   @Prop({ type: String, required: false, default: null })
   name: string;

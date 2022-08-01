@@ -29,7 +29,7 @@ export class ConfigModel implements Config {
 
 export const ConfigSchema = SchemaFactory.createForClass(ConfigModel);
 
-ConfigSchema.set('toObject', {
+ConfigSchema.set('toJSON', {
   transform: (doc, ret, options) => {
     ret.id = ret._id;
     delete ret._id;
