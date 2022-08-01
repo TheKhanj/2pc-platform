@@ -10,8 +10,12 @@ export class HttpCommandFactory {
       'method' | 'url' | 'headers' | 'body' | 'params' | 'queries'
     >,
   ): Promise<HttpCommand> {
-    const params = expressionEvaluator.evaluate(args.params);
-    const queries = expressionEvaluator.evaluate(args.queries);
+    const params = args.params
+      ? expressionEvaluator.evaluate(args.params)
+      : undefined;
+    const queries = args.queries
+      ? expressionEvaluator.evaluate(args.queries)
+      : undefined;
     const body = args.body
       ? expressionEvaluator.evaluate(args.body)
       : undefined;
