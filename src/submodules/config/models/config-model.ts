@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import * as mongoose from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { StateSchema } from './state-model';
@@ -6,7 +6,7 @@ import { Config, ConfigStatus, State } from 'src/types/transaction-declaration';
 
 @Schema({ collection: 'Config', minimize: false })
 export class ConfigModel implements Config {
-  id: Types.ObjectId;
+  id: mongoose.Types.ObjectId;
 
   @Prop({ type: String, required: false, default: null })
   name: string;
@@ -15,9 +15,7 @@ export class ConfigModel implements Config {
   status: ConfigStatus;
 
   @Prop({
-    type: {
-      type: 'object',
-    },
+    type: mongoose.Schema.Types.Mixed,
     required: false,
     default: {},
   })
