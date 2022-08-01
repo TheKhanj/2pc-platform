@@ -12,10 +12,18 @@ import {
 import { ConfigIdDto } from '../dto/config-id-dto';
 import { ConfigService } from '../service/config-service';
 import { CreateConfigDto } from '../dto/create-config-dto';
+import { ConfigSearchDto } from '../dto/config-search-dto';
 
 @Controller('/config')
 export class ConfigController {
   constructor(private readonly service: ConfigService) {}
+
+  @Get('/search')
+  async get(@Param() params: ConfigSearchDto) {
+    const res = await this.service.get(params);
+
+    return res;
+  }
 
   @Get('/:configId/getById')
   async getById(@Param() params: ConfigIdDto) {

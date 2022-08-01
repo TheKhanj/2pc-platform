@@ -25,10 +25,7 @@ export class ConfigService {
     return res;
   }
 
-  async get(search?: {
-    id: mongoose.Types.ObjectId;
-    name: string;
-  }): Promise<Config[]> {
+  async get(search?: { name?: string }): Promise<Config[]> {
     const query = {} as any;
 
     if (search?.name) {
