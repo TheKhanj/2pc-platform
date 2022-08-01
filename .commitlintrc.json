@@ -28,6 +28,7 @@
       1,
       "always",
       [
+        "bootstrap",
         "command",
         "result",
         "resource",
