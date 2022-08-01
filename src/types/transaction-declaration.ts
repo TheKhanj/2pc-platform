@@ -13,10 +13,10 @@ export type HttpResource = {
   type: 'http';
   method: Method;
   url: string;
-  headers: Record<StringExpression, StringExpression>;
+  headers?: Record<StringExpression, StringExpression>;
   body?: Expression;
-  params: Record<StringExpression, StringExpression>;
-  queries: Record<StringExpression, StringExpression>;
+  params?: Record<StringExpression, StringExpression>;
+  queries?: Record<StringExpression, StringExpression>;
 };
 
 export type RabbitMQResource = {
