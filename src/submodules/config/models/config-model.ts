@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-import { StateModel } from './state-model';
+import { StateSchema } from './state-model';
 import { Config, ConfigStatus, State } from 'src/types/transaction-declaration';
 
 @Schema({ collection: 'Config', minimize: false })
@@ -24,12 +24,12 @@ export class ConfigModel implements Config {
   variables: Record<string, any>;
 
   @Prop({
-    type: [StateModel],
+    type: [StateSchema],
   })
   states: State[];
 }
 
-const ConfigSchema = SchemaFactory.createForClass(ConfigModel);
+export const ConfigSchema = SchemaFactory.createForClass(ConfigModel);
 
 ConfigSchema.set('toObject', {
   transform: (doc, ret, options) => {
