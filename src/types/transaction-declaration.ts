@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 import { Method } from 'axios';
 
 import { Expression, StringExpression } from '../expression/types/expressions';
@@ -9,7 +10,7 @@ export type HttpResource = {
   method: Method;
   url: string;
   headers: Record<StringExpression, StringExpression>;
-  body: Expression;
+  body?: Expression;
   params: Record<StringExpression, StringExpression>;
   queries: Record<StringExpression, StringExpression>;
 };
@@ -33,10 +34,15 @@ export type State = {
   resources: Resources;
 };
 
-export type Transaction = {
-  id: any;
+export enum ConfigStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+}
+
+export type Config = {
+  id: Types.ObjectId;
   name: string;
-  status: 'active' | 'inactive';
+  status: ConfigStatus;
   variables: Record<string, any>;
   states: State[];
 };
