@@ -13,18 +13,26 @@ export class ConfigService {
     private readonly model: mongoose.Model<ConfigModel>,
   ) {}
 
-  async get(options?: {
+  async getById(id: mongoose.Types.ObjectId): Promise<Config> {
+    const res = await this.model.findById(id).lean();
+
+    if (!res) {
+      throw new mongoose.Error.DocumentNotFoundError(
+        `config with id ${id} not found`,
+      );
+    }
+
+    return res;
+  }
+
+  async get(search?: {
     id: mongoose.Types.ObjectId;
     name: string;
   }): Promise<Config[]> {
     const query = {} as any;
 
-    if (options?.id) {
-      query._id = options.id;
-    }
-
-    if (options?.name) {
-      const escaped = escapeRegExp(options.name);
+    if (search?.name) {
+      const escaped = escapeRegExp(search.name);
 
       query.name = new RegExp(`^${escaped}`);
     }
