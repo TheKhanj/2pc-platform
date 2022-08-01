@@ -1,8 +1,7 @@
-import { Types } from 'mongoose';
-
 import {
   Allow,
   Equals,
+  IsArray,
   IsEnum,
   IsNotEmpty,
   IsOptional,
@@ -10,6 +9,8 @@ import {
   IsUrl,
   ValidateNested,
 } from 'class-validator';
+import { Type } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 import {
   Config,
@@ -22,36 +23,43 @@ import {
   TypeDefinition,
 } from 'src/types/transaction-declaration';
 import { HttpMethod } from 'src/types/http-method';
-import { IsResource } from '../decorators/is-resource';
+import { ConvertToResource } from '../decorators/convert-to-resource';
 import { Expression, StringExpression } from 'src/expression/types/expressions';
-import { Type } from 'class-transformer';
 
 export class CreateHttpResource implements HttpResource {
   @Equals('http')
+  @ApiProperty({ enum: ['http'], required: true })
   type: 'http';
 
   @IsEnum(HttpMethod)
+  @ApiProperty({ enum: HttpMethod, required: true })
   method: HttpMethod;
 
   @IsUrl()
   @IsNotEmpty()
+  @ApiProperty({ type: String, example: 'https://google.com' })
   url: string;
 
   @Allow()
-  headers: Record<StringExpression, StringExpression>;
+  @ApiProperty({ example: { referer: '127.0.0.1' } })
+  headers?: Record<StringExpression, StringExpression>;
 
   @Allow()
+  @ApiProperty({ required: false, example: {} })
   body?: Expression;
 
   @Allow()
-  params: Record<StringExpression, StringExpression>;
+  @ApiProperty({ required: false, example: {} })
+  params?: Record<StringExpression, StringExpression> = {};
 
   @Allow()
-  queries: Record<StringExpression, StringExpression>;
+  @ApiProperty({ required: false, example: {} })
+  queries?: Record<StringExpression, StringExpression>;
 }
 
 export class CreateRabbitMQResource implements RabbitMQResource {
   @Equals('rabbitmq')
+  @ApiProperty({ enum: ['rabbitmq'], required: true })
   type: 'rabbitmq';
 }
 
@@ -61,44 +69,82 @@ const resources = [
 ];
 
 export class CreateResources implements Resources {
-  @IsResource(resources)
+  @ValidateNested()
+  @ConvertToResource(resources)
+  @ApiProperty({
+    type: CreateHttpResource,
+    required: true,
+  })
   start: Resource;
 
-  @IsResource(resources)
+  @ValidateNested()
+  @ConvertToResource(resources)
+  @ApiProperty({
+    type: CreateHttpResource,
+    required: true,
+  })
   commit: Resource;
 
-  @IsResource(resources)
+  @ValidateNested()
+  @ConvertToResource(resources)
+  @ApiProperty({
+    type: CreateHttpResource,
+    required: true,
+  })
   rollback: Resource;
 }
 
 export class CreateState implements State {
   @IsString()
   @IsOptional()
-  name: string;
+  @ApiProperty({ type: String, required: false, example: 'check-balance' })
+  @Type(() => String)
+  name?: string;
 
   @IsOptional()
+  @ApiProperty({ enum: ['task'] })
+  @Type(() => String)
   type: 'task' = 'task';
 
+  @Allow()
   @IsOptional()
+  @ApiProperty({ required: false })
   result: TypeDefinition;
 
   @ValidateNested()
+  @Type(() => CreateResources)
+  @ApiProperty({ type: CreateResources })
   resources: CreateResources;
 }
 
 export class CreateConfigDto implements Omit<Config, 'id'> {
   @IsString()
   @IsOptional()
+  @ApiProperty({ type: String, required: false, example: 'transfer-money' })
   name: string;
 
   @IsEnum(ConfigStatus)
   @IsOptional()
+  @ApiProperty({
+    enum: ConfigStatus,
+    required: false,
+    default: ConfigStatus.ACTIVE,
+  })
   status: ConfigStatus = ConfigStatus.ACTIVE;
 
   @Allow()
+  @ApiProperty({
+    example: {
+      var1: 'value1',
+      var2: 123,
+      var3: true,
+    },
+  })
   variables: Record<string, any>;
 
   @ValidateNested({ each: true })
+  @IsArray()
   @Type(() => CreateState)
+  @ApiProperty({ type: [CreateState] })
   states: CreateState[];
 }
