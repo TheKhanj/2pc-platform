@@ -99,10 +99,10 @@ export class CreateResources implements Resources {
 
 export class CreateState implements State {
   @IsString()
-  @IsOptional()
-  @ApiProperty({ type: String, required: false, example: 'check-balance' })
+  @IsNotEmpty()
+  @ApiProperty({ type: String, required: true, example: 'check-balance' })
   @Type(() => String)
-  name?: string;
+  name: string;
 
   @IsOptional()
   @ApiProperty({ enum: ['task'] })

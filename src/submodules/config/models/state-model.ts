@@ -6,7 +6,7 @@ import { Resource, Resources, State } from 'src/submodules/core/types/transactio
 
 @Schema({ _id: false, minimize: false })
 export class StateModel implements State {
-  @Prop({ type: String, required: false, default: null })
+  @Prop({ type: String, required: true, default: null })
   name: string;
 
   @Prop({ enum: ['task'], required: false, default: 'task' })

@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 
 import { ExecutorResult } from '../../results/executor-result';
-import { VariableStorage } from '../variable-storage';
+import { ExtendedVariableStorage } from '../../expression/extended-variable-storage';
 
 @Injectable()
 export class VariableStorageUpdater {
-  constructor(private readonly variableStorage: VariableStorage) {}
+  constructor(private readonly variableStorage: ExtendedVariableStorage) {}
 
-  update(stateName: string, res: ExecutorResult) {}
+  updateResult(stateName: string, res: ExecutorResult) {
+    this.variableStorage.set(`$$RESULT["${stateName}"]`, res);
+  }
 }

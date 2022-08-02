@@ -7,7 +7,7 @@ export type TypeDefinition = any;
 
 export type BaseResource = {
   type: 'http' | 'rabbitmq';
-}
+};
 
 export type HttpResource = {
   type: 'http';
@@ -32,7 +32,7 @@ export type Resources<R = Resource> = {
 };
 
 export type State = {
-  name?: string;
+  name: string;
   type: 'task';
   result?: TypeDefinition;
   resources: Resources;

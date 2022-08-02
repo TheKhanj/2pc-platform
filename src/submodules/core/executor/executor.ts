@@ -1,16 +1,23 @@
 import { CoreExecutor } from './types/core-executor';
 import { ExecutorResult } from '../results/executor-result';
 import { Executor as IExecutor } from './types/executor';
+import { VariableStorageUpdater } from '../storage/updaters/variable-storage-updater';
 
 export class Executor implements IExecutor {
   constructor(
+    private readonly stateName: string,
+    private readonly variableStorageUpdater: VariableStorageUpdater,
     private readonly _start: CoreExecutor,
     private readonly _commit: CoreExecutor,
     private readonly _rollback: CoreExecutor,
   ) {}
 
   async start(): Promise<ExecutorResult> {
-    return this._start.execute();
+    const res = await this._start.execute();
+
+    this.variableStorageUpdater.updateResult(this.stateName, res);
+
+    return res;
   }
 
   async commit(): Promise<ExecutorResult> {

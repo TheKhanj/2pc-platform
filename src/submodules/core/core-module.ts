@@ -3,17 +3,16 @@ import { v4 as uuid } from 'uuid';
 import { NestFactory } from '@nestjs/core';
 
 import { Config } from './types/transaction-declaration';
-import { CoreHttpExecutor } from './executor/core-http-executor';
-import { ExtendedVariableStorage } from './expression/extended-variable-storage';
 import { SessionStorage } from './storage/session-storage';
 import { VariableStorage } from './storage/variable-storage';
+import { ExecutorFactory } from './executor/executor-factory';
 import { SequentialSession } from './session/sequential-session';
 import { HttpCommandFactory } from './commands/http/http-command-factory';
 import { ExpressionEvaluator } from './expression/expression-evaluator';
 import { HttpResourceService } from './resources/http/http-resource-service';
 import { CoreExecutorFactory } from './executor/core-executor-factory';
-import { ExecutorFactory } from './executor/executor-factory';
-import { contentSecurityPolicy } from 'helmet';
+import { VariableStorageUpdater } from './storage/updaters/variable-storage-updater';
+import { ExtendedVariableStorage } from './expression/extended-variable-storage';
 
 @Module({
   providers: [
@@ -46,12 +45,13 @@ import { contentSecurityPolicy } from 'helmet';
             SequentialSession,
             CoreExecutorFactory,
             ExecutorFactory,
+            VariableStorageUpdater,
             {
               provide: 'Executors',
               inject: [ExecutorFactory],
               useFactory: (executorFactory: ExecutorFactory) => {
                 return config.states.map((state) => {
-                  const res = executorFactory.create(state.resources);
+                  const res = executorFactory.create(state);
 
                   return res;
                 });
