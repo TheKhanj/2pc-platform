@@ -13,6 +13,7 @@ import { ExpressionEvaluator } from './expression/expression-evaluator';
 import { HttpResourceService } from './resources/http/http-resource-service';
 import { CoreExecutorFactory } from './executor/core-executor-factory';
 import { ExecutorFactory } from './executor/executor-factory';
+import { contentSecurityPolicy } from 'helmet';
 
 @Module({
   providers: [
@@ -49,9 +50,11 @@ import { ExecutorFactory } from './executor/executor-factory';
               provide: 'Executors',
               inject: [ExecutorFactory],
               useFactory: (executorFactory: ExecutorFactory) => {
-                return config.states.map((state) =>
-                  executorFactory.create(state.resources),
-                );
+                return config.states.map((state) => {
+                  const res = executorFactory.create(state.resources);
+
+                  return res;
+                });
               },
             },
           ],

@@ -8,8 +8,12 @@ export class ExecutorFactory {
   constructor(private readonly coreExecutorFactory: CoreExecutorFactory) {}
 
   create(resources: Resources) {
-    return (['start', 'commit', 'rollback'] as const).map((method) =>
-      this.coreExecutorFactory.create(method, resources[method]),
-    );
+    return (['start', 'commit', 'rollback'] as const).reduce((ret, method) => {
+      const executor = this.coreExecutorFactory.create(resources[method]);
+
+      ret[method] = () => executor.execute();
+
+      return ret;
+    }, {});
   }
 }

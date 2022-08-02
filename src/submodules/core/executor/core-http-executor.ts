@@ -12,7 +12,6 @@ export class CoreHttpExecutor implements CoreExecutor {
     private readonly expressionEvaluator: ExpressionEvaluator,
     private readonly resource: HttpResource,
     private readonly factory: HttpCommandFactory,
-    private readonly method: 'start' | 'commit' | 'rollback',
   ) {}
 
   async execute() {

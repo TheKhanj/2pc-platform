@@ -15,17 +15,13 @@ export class CoreExecutorFactory {
     private readonly expressionEvaluator: ExpressionEvaluator,
   ) {}
 
-  create(
-    resourceMethod: 'commit' | 'start' | 'rollback',
-    resource: Resource,
-  ): CoreExecutor {
+  create(resource: Resource): CoreExecutor {
     if (resource.type === 'http') {
       return new CoreHttpExecutor(
         this.httpResourceService,
         this.expressionEvaluator,
         resource,
         this.httpCommandFactory,
-        resourceMethod,
       );
     }
 
