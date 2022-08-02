@@ -8,12 +8,14 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 import { ConfigIdDto } from '../dto/config-id-dto';
 import { ConfigService } from '../service/config-service';
 import { CreateConfigDto } from '../dto/create-config-dto';
 import { ConfigSearchDto } from '../dto/config-search-dto';
 
+@ApiTags('Config')
 @Controller('/config')
 export class ConfigController {
   constructor(private readonly service: ConfigService) {}
