@@ -4,7 +4,7 @@ import { NestFactory } from '@nestjs/core';
 
 import { Config } from './types/transaction-declaration';
 import { CoreHttpExecutor } from './executor/core-http-executor';
-import { PathEvaluator } from './expression/path-evaluator';
+import { ExtendedVariableStorage } from './expression/extended-variable-storage';
 import { SessionStorage } from './storage/session-storage';
 import { VariableStorage } from './storage/variable-storage';
 import { SequentialSession } from './session/sequential-session';
@@ -41,7 +41,7 @@ import { contentSecurityPolicy } from 'helmet';
               useValue: httpCommandFactory,
             },
             ExpressionEvaluator,
-            PathEvaluator,
+            ExtendedVariableStorage,
             VariableStorage,
             SequentialSession,
             CoreExecutorFactory,

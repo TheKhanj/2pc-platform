@@ -1,6 +1,7 @@
+import { Storage as IStorage } from './types/storage';
 import { StorageNotFoundError } from './errors/storage-not-found-error';
 
-export class Storage {
+export abstract class Storage implements IStorage {
   private readonly _storage = {};
 
   get<T = any>(key: string): T {

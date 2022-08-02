@@ -2,16 +2,16 @@ import { Injectable } from '@nestjs/common';
 
 import { isPath } from './utils/is-path';
 import { Expression } from './types/expressions';
-import { PathEvaluator } from './path-evaluator';
+import { ExtendedVariableStorage } from './extended-variable-storage';
 
 @Injectable()
 export class ExpressionEvaluator {
-  constructor(private readonly pathEvaluator: PathEvaluator) {}
+  constructor(private readonly pathEvaluator: ExtendedVariableStorage) {}
 
   evaluate(e: Expression) {
     if (typeof e === 'string') {
       if (isPath(e)) {
-        return this.pathEvaluator.evaluate(e);
+        return this.pathEvaluator.get(e);
       }
 
       return e;
