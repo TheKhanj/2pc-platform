@@ -1,10 +1,11 @@
 import axios from 'axios';
-import { Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
 import { HttpResult } from 'src/submodules/core/results/http-result';
 import { HttpCommand } from 'src/submodules/core/commands/http/http-command';
 import { ResourceService } from '../types/resource-service';
 
+@Injectable()
 export class HttpResourceService
   implements ResourceService<HttpCommand, HttpResult> {
   async call<T = any>(command: HttpCommand): Promise<HttpResult<T>> {
