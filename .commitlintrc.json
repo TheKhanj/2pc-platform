@@ -29,6 +29,7 @@
       "always",
       [
         "bootstrap",
+        "@core",
         "@core/command",
         "@core/result",
         "@core/resource",

@@ -16,5 +16,6 @@ import { ConfigModel, ConfigSchema } from './models/config-model';
   ],
   controllers: [ConfigController],
   providers: [ConfigService],
+  exports: [ConfigService],
 })
 export class ConfigModule {}

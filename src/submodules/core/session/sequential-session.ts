@@ -1,11 +1,23 @@
 import * as rx from 'rxjs';
+import { Inject, Injectable } from '@nestjs/common';
 
 import { Session } from './abstract/session';
+import { Executor } from '../executor/types/executor';
+import { VariableStorage } from '../storage/variable-storage';
 import { CommitFailedError } from './errors/commit-failed-error';
 import { RollbackFailedError } from './errors/rollback-failed-error';
 import { COMMIT_RETRY_COUNT, ROLLBACK_RETRY_COUNT } from './constants';
 
+@Injectable()
 export class SequentialSession<T = any> extends Session<T> {
+  constructor(
+    @Inject('Executors')
+    protected readonly executors: Executor[],
+    protected readonly storage: VariableStorage,
+  ) {
+    super(executors, storage);
+  }
+
   protected _start<R>(): Promise<R> {
     return new Promise((resolve, reject) => {
       const obs$ = rx.from(this.executors).pipe(

@@ -1,16 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
+import {
+  HttpResource,
+  Resources,
+} from 'src/submodules/core/types/transaction-declaration';
 import { Executor } from './types/executor';
 import { HttpCommandFactory } from 'src/submodules/core/commands/http/http-command-factory';
 import { ExpressionEvaluator } from 'src/submodules/core/expression/expression-evaluator';
 import { HttpResourceService } from 'src/submodules/core/resources/http/http-resource-service';
-import { HttpResource, Resources } from 'src/submodules/core/types/transaction-declaration';
 
 @Injectable()
 export class HttpExecutor implements Executor {
   constructor(
     private readonly service: HttpResourceService,
     private readonly expressionEvaluator: ExpressionEvaluator,
+    @Inject('Resources')
     private readonly resources: Resources<HttpResource>,
     private readonly factory: HttpCommandFactory,
   ) {}
