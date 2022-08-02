@@ -17,7 +17,7 @@ export class ExecutorController {
   @Post('/:configId/startTransaction')
   async start(@Param() params: ConfigIdDto) {
     const config = await this.configService.getById(params.configId);
-    await this.service.start(config);
+    return this.service.start(config);
   }
 
   @Get('/status/:transactionId/getTransactionStatus')

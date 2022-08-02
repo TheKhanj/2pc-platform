@@ -18,7 +18,7 @@ export class SequentialSession<T = any> extends Session<T> {
     super(executors, storage);
   }
 
-  protected _start<R>(): Promise<R> {
+  protected _start(): Promise<void> {
     return new Promise((resolve, reject) => {
       const obs$ = rx.from(this.executors).pipe(
         rx.map((e) => rx.defer(() => rx.from(e.start()))),
@@ -27,8 +27,8 @@ export class SequentialSession<T = any> extends Session<T> {
       );
 
       obs$.subscribe({
-        next: (res) => {
-          resolve(res);
+        next: () => {
+          resolve();
         },
         error: (err) => {
           reject(err);

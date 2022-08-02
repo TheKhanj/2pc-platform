@@ -53,7 +53,7 @@ export class CreateHttpResource implements HttpResource {
 
   @Allow()
   @ApiProperty({ required: false, example: {} })
-  params?: Record<StringExpression, StringExpression> = {};
+  params?: Record<StringExpression, StringExpression>;
 
   @Allow()
   @ApiProperty({ required: false, example: {} })

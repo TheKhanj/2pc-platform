@@ -14,21 +14,19 @@ export abstract class Session<R> {
     this.id = uuid();
   }
 
-  public async start(input: Record<string, any>): Promise<R> {
+  public async start(input: Record<string, any>): Promise<void> {
     try {
       Logger.warn('Input field is not set in storage', 'Session');
 
-      const res = await this._start();
+      await this._start();
       await this.commit();
-
-      return res;
     } catch (err) {
       await this.rollback();
       throw err;
     }
   }
 
-  protected abstract _start(): Promise<R>;
+  protected abstract _start(): Promise<void>;
 
   protected abstract commit(): Promise<void>;
 

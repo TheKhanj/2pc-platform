@@ -1,16 +1,16 @@
-import { v4 as uuid } from 'uuid';
 import { Module } from '@nestjs/common';
+import { v4 as uuid } from 'uuid';
 import { NestFactory } from '@nestjs/core';
 
 import { Config } from './types/transaction-declaration';
+import { HttpExecutor } from './executor/http-executor';
 import { PathEvaluator } from './expression/path-evaluator';
 import { SessionStorage } from './storage/session-storage';
 import { VariableStorage } from './storage/variable-storage';
+import { SequentialSession } from './session/sequential-session';
 import { HttpCommandFactory } from './commands/http/http-command-factory';
 import { ExpressionEvaluator } from './expression/expression-evaluator';
 import { HttpResourceService } from './resources/http/http-resource-service';
-import { HttpExecutor } from './executor/http-executor';
-import { stat } from 'fs';
 
 @Module({
   providers: [
@@ -40,15 +40,12 @@ import { stat } from 'fs';
             ExpressionEvaluator,
             PathEvaluator,
             VariableStorage,
-            {
-              provide: 'Config',
-              useValue: config,
-            },
+            SequentialSession,
             {
               provide: 'Executors',
-              inject: ['Config', ExpressionEvaluator],
-              useFactory: (config: Config, expressionEvaluator) => {
-                config.states.map(
+              inject: [ExpressionEvaluator],
+              useFactory: (expressionEvaluator) => {
+                return config.states.map(
                   (state) =>
                     new HttpExecutor(
                       httpResourceService,
@@ -69,9 +66,13 @@ import { stat } from 'fs';
 
         sessionStorage.set(sessionId, moduleRef);
 
-        return sessionId;
+        return {
+          sessionId,
+          moduleRef,
+        };
       },
     },
   ],
+  exports: ['SessionFactory'],
 })
 export class CoreModule {}
