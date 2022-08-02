@@ -29,13 +29,13 @@
       "always",
       [
         "bootstrap",
-        "command",
-        "result",
-        "resource",
-        "executor",
-        "variable-storage",
-        "session",
-        "expression",
+        "@core/command",
+        "@core/result",
+        "@core/resource",
+        "@core/executor",
+        "@core/variable-storage",
+        "@core/session",
+        "@core/expression",
         "@config",
         "@executor"
       ]
