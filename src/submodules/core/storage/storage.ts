@@ -1,8 +1,6 @@
-import { Injectable } from '@nestjs/common';
-
 import { StorageNotFoundError } from './errors/storage-not-found-error';
 
-export abstract class Storage {
+export class Storage {
   private readonly _storage = {};
 
   get<T = any>(key: string): T {

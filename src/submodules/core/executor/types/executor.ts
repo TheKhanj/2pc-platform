@@ -1,5 +1,7 @@
+import { ExecutorResult } from '../../results/executor-result';
+
 export type Executor = {
-  start(): Promise<void>;
-  commit(): Promise<void>;
-  rollback(): Promise<void>;
+  start(): Promise<ExecutorResult>;
+  commit(): Promise<ExecutorResult>;
+  rollback(): Promise<ExecutorResult>;
 };

@@ -15,7 +15,7 @@ export class SequentialSession extends Session {
     protected readonly executors: Executor[],
     protected readonly storage: VariableStorage,
   ) {
-    super(executors, storage);
+    super(executors);
   }
 
   protected _start(): Promise<void> {
@@ -27,7 +27,8 @@ export class SequentialSession extends Session {
       );
 
       obs$.subscribe({
-        next: () => {
+        next: (res) => {},
+        complete: () => {
           resolve();
         },
         error: (err) => {

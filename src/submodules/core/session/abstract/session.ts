@@ -2,15 +2,11 @@ import { Logger } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
 
 import { Executor } from '../../executor/types/executor';
-import { VariableStorage } from '../../storage/variable-storage';
 
 export abstract class Session {
   protected readonly id: string;
 
-  constructor(
-    protected readonly executors: Executor[],
-    protected readonly storage: VariableStorage,
-  ) {
+  constructor(protected readonly executors: Executor[]) {
     this.id = uuid();
   }
 
