@@ -9,7 +9,7 @@ import { RollbackFailedError } from './errors/rollback-failed-error';
 import { COMMIT_RETRY_COUNT, ROLLBACK_RETRY_COUNT } from './constants';
 
 @Injectable()
-export class SequentialSession<T = any> extends Session<T> {
+export class SequentialSession extends Session {
   constructor(
     @Inject('Executors')
     protected readonly executors: Executor[],

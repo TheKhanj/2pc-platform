@@ -1,5 +1,5 @@
 export type Executor = {
-  start(): Promise<any>;
+  start(): Promise<void>;
   commit(): Promise<void>;
   rollback(): Promise<void>;
 };

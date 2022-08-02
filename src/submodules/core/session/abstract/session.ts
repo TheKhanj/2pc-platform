@@ -1,10 +1,10 @@
 import { Logger } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
 
-import { Executor } from 'src/submodules/core/executor/types/executor';
+import { Executor } from '../../executor/types/executor';
 import { VariableStorage } from '../../storage/variable-storage';
 
-export abstract class Session<R> {
+export abstract class Session {
   protected readonly id: string;
 
   constructor(

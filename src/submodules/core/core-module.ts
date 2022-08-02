@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { NestFactory } from '@nestjs/core';
 
 import { Config } from './types/transaction-declaration';
-import { HttpExecutor } from './executor/http-executor';
+import { CoreHttpExecutor } from './executor/core-http-executor';
 import { PathEvaluator } from './expression/path-evaluator';
 import { SessionStorage } from './storage/session-storage';
 import { VariableStorage } from './storage/variable-storage';
@@ -11,6 +11,8 @@ import { SequentialSession } from './session/sequential-session';
 import { HttpCommandFactory } from './commands/http/http-command-factory';
 import { ExpressionEvaluator } from './expression/expression-evaluator';
 import { HttpResourceService } from './resources/http/http-resource-service';
+import { CoreExecutorFactory } from './executor/core-executor-factory';
+import { ExecutorFactory } from './executor/executor-factory';
 
 @Module({
   providers: [
@@ -41,18 +43,14 @@ import { HttpResourceService } from './resources/http/http-resource-service';
             PathEvaluator,
             VariableStorage,
             SequentialSession,
+            CoreExecutorFactory,
+            ExecutorFactory,
             {
               provide: 'Executors',
-              inject: [ExpressionEvaluator],
-              useFactory: (expressionEvaluator) => {
-                return config.states.map(
-                  (state) =>
-                    new HttpExecutor(
-                      httpResourceService,
-                      expressionEvaluator,
-                      state.resources as any, // TODO: FIX THIS
-                      httpCommandFactory,
-                    ),
+              inject: [ExecutorFactory],
+              useFactory: (executorFactory: ExecutorFactory) => {
+                return config.states.map((state) =>
+                  executorFactory.create(state.resources),
                 );
               },
             },
