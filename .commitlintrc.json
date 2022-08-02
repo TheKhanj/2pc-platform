@@ -37,7 +37,7 @@
         "session",
         "expression",
         "@config",
-        "@session"
+        "@executor"
       ]
     ]
   }
