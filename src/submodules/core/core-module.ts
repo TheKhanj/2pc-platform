@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid';
 import { Module } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
@@ -8,6 +9,8 @@ import { VariableStorage } from './storage/variable-storage';
 import { HttpCommandFactory } from './commands/http/http-command-factory';
 import { ExpressionEvaluator } from './expression/expression-evaluator';
 import { HttpResourceService } from './resources/http/http-resource-service';
+import { HttpExecutor } from './executor/http-executor';
+import { stat } from 'fs';
 
 @Module({
   providers: [
@@ -16,6 +19,7 @@ import { HttpResourceService } from './resources/http/http-resource-service';
     SessionStorage,
     {
       provide: 'SessionFactory',
+      inject: [HttpResourceService, HttpCommandFactory, SessionStorage],
       useFactory: (
         httpResourceService: HttpResourceService,
         httpCommandFactory: HttpCommandFactory,
@@ -37,8 +41,23 @@ import { HttpResourceService } from './resources/http/http-resource-service';
             PathEvaluator,
             VariableStorage,
             {
-              provide: 'Resources',
-              useValue: config.states
+              provide: 'Config',
+              useValue: config,
+            },
+            {
+              provide: 'Executors',
+              inject: ['Config', ExpressionEvaluator],
+              useFactory: (config: Config, expressionEvaluator) => {
+                config.states.map(
+                  (state) =>
+                    new HttpExecutor(
+                      httpResourceService,
+                      expressionEvaluator,
+                      state.resources as any, // TODO: FIX THIS
+                      httpCommandFactory,
+                    ),
+                );
+              },
             },
           ],
         })(MiniModule);
@@ -46,7 +65,11 @@ import { HttpResourceService } from './resources/http/http-resource-service';
         const ctx = await NestFactory.createApplicationContext(MiniModule);
         const moduleRef = ctx.select(MiniModule);
 
-        return moduleRef;
+        const sessionId = uuid();
+
+        sessionStorage.set(sessionId, moduleRef);
+
+        return sessionId;
       },
     },
   ],

@@ -1,5 +1,3 @@
-import { Inject, Injectable } from '@nestjs/common';
-
 import {
   HttpResource,
   Resources,
@@ -9,12 +7,10 @@ import { HttpCommandFactory } from 'src/submodules/core/commands/http/http-comma
 import { ExpressionEvaluator } from 'src/submodules/core/expression/expression-evaluator';
 import { HttpResourceService } from 'src/submodules/core/resources/http/http-resource-service';
 
-@Injectable()
 export class HttpExecutor implements Executor {
   constructor(
     private readonly service: HttpResourceService,
     private readonly expressionEvaluator: ExpressionEvaluator,
-    @Inject('Resources')
     private readonly resources: Resources<HttpResource>,
     private readonly factory: HttpCommandFactory,
   ) {}
