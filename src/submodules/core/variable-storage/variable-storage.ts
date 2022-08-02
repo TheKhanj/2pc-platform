@@ -1,5 +1,10 @@
+import { Injectable, Scope } from '@nestjs/common';
+
 import { VariableNotFoundError } from './errors/variable-not-found-error';
 
+@Injectable({
+  scope: Scope.REQUEST,
+})
 export class VariableStorage {
   private readonly variables = {};
 

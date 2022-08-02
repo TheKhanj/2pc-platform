@@ -1,7 +1,10 @@
+import { Injectable } from '@nestjs/common';
+
 import { Path } from './types/expressions';
-import { VariableStorage } from 'src/variable-storage/variable-storage';
+import { VariableStorage } from 'src/submodules/core/variable-storage/variable-storage';
 import { PathNotResolvedError } from './errors/path-not-resolved-error';
 
+@Injectable()
 export class PathEvaluator {
   constructor(private readonly storage: VariableStorage) {}
 

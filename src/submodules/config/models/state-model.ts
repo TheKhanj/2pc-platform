@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { ResourcesModel } from './resources-model';
-import { Resource, Resources, State } from 'src/types/transaction-declaration';
+import { Resource, Resources, State } from 'src/submodules/core/types/transaction-declaration';
 
 @Schema({ _id: false, minimize: false })
 export class StateModel implements State {

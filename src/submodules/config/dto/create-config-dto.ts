@@ -21,10 +21,13 @@ import {
   Resources,
   State,
   TypeDefinition,
-} from 'src/types/transaction-declaration';
-import { HttpMethod } from 'src/types/http-method';
+} from 'src/submodules/core/types/transaction-declaration';
+import {
+  Expression,
+  StringExpression,
+} from 'src/submodules/core/expression/types/expressions';
+import { HttpMethod } from 'src/submodules/core/types/http-method';
 import { ConvertToResource } from '../decorators/convert-to-resource';
-import { Expression, StringExpression } from 'src/expression/types/expressions';
 
 export class CreateHttpResource implements HttpResource {
   @Equals('http')

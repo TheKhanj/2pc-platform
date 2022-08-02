@@ -1,7 +1,10 @@
+import { Injectable } from '@nestjs/common';
+
 import { isPath } from './utils/is-path';
 import { Expression } from './types/expressions';
 import { PathEvaluator } from './path-evaluator';
 
+@Injectable()
 export class ExpressionEvaluator {
   constructor(private readonly pathEvaluator: PathEvaluator) {}
 

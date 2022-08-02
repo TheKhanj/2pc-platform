@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 import { StateSchema } from './state-model';
-import { Config, ConfigStatus, State } from 'src/types/transaction-declaration';
+import { Config, ConfigStatus, State } from 'src/submodules/core/types/transaction-declaration';
 
 @Schema({ collection: 'Config', minimize: false })
 export class ConfigModel implements Config {

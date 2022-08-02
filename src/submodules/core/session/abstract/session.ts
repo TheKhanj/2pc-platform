@@ -1,8 +1,8 @@
 import { Logger } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
 
-import { Executor } from 'src/executor/types/executor';
-import { VariableStorage } from 'src/variable-storage/variable-storage';
+import { Executor } from 'src/submodules/core/executor/types/executor';
+import { VariableStorage } from 'src/submodules/core/variable-storage/variable-storage';
 
 export abstract class Session<R> {
   protected readonly id: string;

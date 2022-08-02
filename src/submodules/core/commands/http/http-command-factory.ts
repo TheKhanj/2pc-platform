@@ -1,6 +1,6 @@
 import { HttpCommand } from './http-command';
-import { HttpResource } from 'src/types/transaction-declaration';
-import { ExpressionEvaluator } from 'src/expression/expression-evaluator';
+import { HttpResource } from 'src/submodules/core/types/transaction-declaration';
+import { ExpressionEvaluator } from 'src/submodules/core/expression/expression-evaluator';
 
 export class HttpCommandFactory {
   async create(

@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { Logger } from '@nestjs/common';
 
-import { HttpResult } from 'src/results/http-result';
-import { HttpCommand } from 'src/commands/http/http-command';
+import { HttpResult } from 'src/submodules/core/results/http-result';
+import { HttpCommand } from 'src/submodules/core/commands/http/http-command';
 import { ResourceService } from '../types/resource-service';
 
 export class HttpResourceService

@@ -1,9 +1,9 @@
 import * as mongoose from 'mongoose';
 import { Prop, Schema } from '@nestjs/mongoose';
 
-import { HttpMethod } from 'src/types/http-method';
-import { Expression } from 'src/expression/types/expressions';
-import { HttpResource } from 'src/types/transaction-declaration';
+import { HttpMethod } from 'src/submodules/core/types/http-method';
+import { Expression } from 'src/submodules/core/expression/types/expressions';
+import { HttpResource } from 'src/submodules/core/types/transaction-declaration';
 
 @Schema({ minimize: false })
 export class HttpResourceModel implements HttpResource {
@@ -25,6 +25,10 @@ export class HttpResourceModel implements HttpResource {
   @Prop({ type: HttpMethod })
   method: HttpMethod;
 
-  @Prop({ type: mongoose.Schema.Types.Mixed, required: false, default: undefined })
+  @Prop({
+    type: mongoose.Schema.Types.Mixed,
+    required: false,
+    default: undefined,
+  })
   body?: Expression;
 }

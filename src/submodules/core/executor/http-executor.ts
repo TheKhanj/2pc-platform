@@ -1,9 +1,12 @@
-import { Executor } from './types/executor';
-import { HttpCommandFactory } from 'src/commands/http/http-command-factory';
-import { ExpressionEvaluator } from 'src/expression/expression-evaluator';
-import { HttpResourceService } from 'src/resources/http/http-resource-service';
-import { HttpResource, Resources } from 'src/types/transaction-declaration';
+import { Injectable } from '@nestjs/common';
 
+import { Executor } from './types/executor';
+import { HttpCommandFactory } from 'src/submodules/core/commands/http/http-command-factory';
+import { ExpressionEvaluator } from 'src/submodules/core/expression/expression-evaluator';
+import { HttpResourceService } from 'src/submodules/core/resources/http/http-resource-service';
+import { HttpResource, Resources } from 'src/submodules/core/types/transaction-declaration';
+
+@Injectable()
 export class HttpExecutor implements Executor {
   constructor(
     private readonly service: HttpResourceService,

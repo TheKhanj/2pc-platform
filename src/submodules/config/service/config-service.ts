@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { escapeRegExp } from '@shayan/common';
 
-import { Config } from 'src/types/transaction-declaration';
+import { Config } from 'src/submodules/core/types/transaction-declaration';
 import { ConfigModel } from '../models/config-model';
 
 @Injectable()

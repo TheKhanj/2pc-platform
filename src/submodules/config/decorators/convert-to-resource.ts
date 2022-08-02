@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 
-import { BaseResource } from 'src/types/transaction-declaration';
+import { BaseResource } from 'src/submodules/core/types/transaction-declaration';
 import { BaseResourceDto } from '../dto/base-resource-dto';
 
 export function ConvertToResource(
