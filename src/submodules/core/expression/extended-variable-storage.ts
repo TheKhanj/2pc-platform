@@ -7,7 +7,11 @@ import { PathNotResolvedError } from './errors/path-not-resolved-error';
 
 @Injectable()
 export class ExtendedVariableStorage implements Storage {
-  constructor(private readonly storage: VariableStorage) {}
+  constructor(private readonly storage: VariableStorage) {
+    this.storage.set('RESULT', {});
+    this.storage.set('GLOBAL', {});
+    this.storage.set('INPUT', {});
+  }
 
   get(path: Path) {
     const arr = this.convertPathToArr(path);
