@@ -61,6 +61,8 @@ export class SessionFactory {
             }
 
             this.sessionStorage.set(session.id, session);
+
+            return session;
           },
         },
         {
