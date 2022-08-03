@@ -42,29 +42,43 @@ export class ExtendedVariableStorage implements AsyncStorage {
   }
 
   private convertQueryToArr(query: string): (string | number)[] {
-    const singleQuoteMatch = /'[^']+'/;
-    const doubleQuoteMatch = /"[^"]+"/;
-    const quoteMatch = new RegExp(
-      `(${singleQuoteMatch.source}|${doubleQuoteMatch.source})`,
+    const singleQuoteString$ = /'[^']+'/;
+    const doubleQuoteString$ = /"[^"]+"/;
+    const quoteString$ = new RegExp(
+      `(${singleQuoteString$.source}|${doubleQuoteString$.source})`,
     );
-    const arrayMatch = new RegExp(`\\[${quoteMatch.source}\\]`);
-    const dotMatch = /(\.[^\.\[\]]+)/;
-    const selectorMatch = new RegExp(
-      `(${dotMatch.source}|${arrayMatch.source})`,
+    const number$ = /\d+/;
+    const bracketNumberSelector$ = new RegExp(`\\[${number$.source}\\]`);
+    const bracketQuoteSelector$ = new RegExp(`\\[${quoteString$.source}\\]`);
+    const bracketSelector$ = new RegExp(
+      `(${bracketQuoteSelector$.source}|${bracketNumberSelector$.source})`,
+    );
+    const dotStringSelector$ = /\.[^\.\[\]]+/;
+    const dotNumberSelector$ = new RegExp(`\\.${number$.source}`);
+    const selector$ = new RegExp(
+      `(${dotStringSelector$.source}|${dotNumberSelector$.source}|${bracketSelector$.source})`,
       'g',
     );
 
     return (
-      query.match(selectorMatch)?.map((key) => {
-        if (key.match(dotMatch)) {
+      query.match(selector$)?.map((key) => {
+        function regGen(regex: RegExp) {
+          return new RegExp(`^${regex.source}$`);
+        }
+
+        if (key.match(regGen(dotNumberSelector$))) {
+          return +key.slice(1);
+        }
+
+        if (key.match(regGen(dotStringSelector$))) {
           return key.slice(1);
         }
-        const ret = key.split(/["']/)[1];
 
-        // check if index is number
-        if (ret.match(/\d+/)) {
-          return +ret;
+        if (key.match(regGen(bracketNumberSelector$))) {
+          return +key.slice(1, -1);
         }
+
+        const ret = key.slice(2, -2);
 
         return ret;
       }) || []
