@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { Storage } from './storage';
+import { AsyncStorage } from './async-storage';
 
 @Injectable()
-export class VariableStorage extends Storage {}
+export class VariableStorage extends AsyncStorage {}

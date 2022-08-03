@@ -6,12 +6,12 @@ import { ExtendedVariableStorage } from './extended-variable-storage';
 
 @Injectable()
 export class ExpressionEvaluator {
-  constructor(private readonly pathEvaluator: ExtendedVariableStorage) {}
+  constructor(private readonly variableStorage: ExtendedVariableStorage) {}
 
-  evaluate(e: Expression) {
+  async evaluate(e: Expression) {
     if (typeof e === 'string') {
       if (isPath(e)) {
-        return this.pathEvaluator.get(e);
+        return this.variableStorage.get(e);
       }
 
       return e;
@@ -26,12 +26,24 @@ export class ExpressionEvaluator {
     }
 
     if (Array.isArray(e)) {
-      return e.map((e) => this.evaluate(e));
+      const promises = e.map((e) => this.evaluate(e));
+
+      return Promise.all(promises);
     }
 
-    return Object.keys(e).reduce((ret, key) => {
-      const evaluatedKey = this.evaluate(key);
-      ret[evaluatedKey] = this.evaluate(e[key]);
+    const promises = Object.keys(e).map(async (key) => {
+      const evaluatedKey = await this.evaluate(key);
+      const evaluatedValue = await this.evaluate(e[key]);
+      return {
+        key: evaluatedKey,
+        value: evaluatedValue,
+      };
+    });
+
+    const res = await Promise.all(promises);
+
+    return res.reduce((ret, curr) => {
+      ret[curr.key] = curr.value;
       return ret;
     }, {});
   }

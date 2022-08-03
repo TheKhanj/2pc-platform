@@ -1,7 +1,10 @@
+import { Injectable } from '@nestjs/common';
+
 import { Storage as IStorage } from './types/storage';
 import { StorageNotFoundError } from './errors/storage-not-found-error';
 
-export abstract class Storage implements IStorage {
+@Injectable()
+export class Storage implements IStorage {
   private readonly _storage = {};
 
   get<T = any>(key: string): T {

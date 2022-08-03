@@ -15,7 +15,7 @@ export class Executor implements IExecutor {
   async start(): Promise<ExecutorResult> {
     const res = await this._start.execute();
 
-    this.variableStorageUpdater.updateResult(this.stateName, res);
+    await this.variableStorageUpdater.updateResult(this.stateName, res);
 
     return res;
   }

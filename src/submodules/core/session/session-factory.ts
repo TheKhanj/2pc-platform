@@ -2,8 +2,10 @@ import { NestFactory } from '@nestjs/core';
 import { Injectable, Module, NotImplementedException } from '@nestjs/common';
 
 import { Config } from '../types/transaction-declaration';
+import { Storage } from '../storage/storage';
 import { Session } from './abstract/session';
 import { Executor } from '../executor/types/executor';
+import { AsyncStorage } from '../storage/async-storage';
 import { SessionStorage } from '../storage/session-storage';
 import { VariableStorage } from '../storage/variable-storage';
 import { ExecutorFactory } from '../executor/executor-factory';
@@ -39,7 +41,17 @@ export class SessionFactory {
         },
         ExpressionEvaluator,
         ExtendedVariableStorage,
-        VariableStorage,
+        {
+          provide: VariableStorage,
+          useFactory: async () => {
+            const _storage = new VariableStorage(new Storage());
+            await _storage.set('RESULT', {});
+            await _storage.set('INPUT', {});
+            await _storage.set('GLOBAL', { ...config.variables });
+
+            return _storage;
+          },
+        },
         CoreExecutorFactory,
         ExecutorFactory,
         VariableStorageUpdater,

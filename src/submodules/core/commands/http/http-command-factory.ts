@@ -11,13 +11,13 @@ export class HttpCommandFactory {
     >,
   ): Promise<HttpCommand> {
     const params = args.params
-      ? expressionEvaluator.evaluate(args.params)
+      ? await expressionEvaluator.evaluate(args.params)
       : undefined;
     const queries = args.queries
-      ? expressionEvaluator.evaluate(args.queries)
+      ? await expressionEvaluator.evaluate(args.queries)
       : undefined;
     const body = args.body
-      ? expressionEvaluator.evaluate(args.body)
+      ? await expressionEvaluator.evaluate(args.body)
       : undefined;
     return new HttpCommand(args.method, args.url, params, queries, body);
   }
