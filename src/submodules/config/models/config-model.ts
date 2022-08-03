@@ -1,12 +1,20 @@
 import * as mongoose from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
+import {
+  Config,
+  ConfigStatus,
+  ConfigType,
+  State,
+} from 'src/submodules/core/types/transaction-declaration';
 import { StateSchema } from './state-model';
-import { Config, ConfigStatus, State } from 'src/submodules/core/types/transaction-declaration';
 
 @Schema({ collection: 'Config', minimize: false })
 export class ConfigModel implements Config {
   id: mongoose.Types.ObjectId;
+
+  @Prop({ enum: ConfigType, required: true, default: 'sequential' })
+  type: ConfigType;
 
   @Prop({ type: String, required: false, default: null })
   name: string;

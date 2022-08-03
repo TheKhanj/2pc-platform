@@ -15,6 +15,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   Config,
   ConfigStatus,
+  ConfigType,
   HttpResource,
   RabbitMQResource,
   Resource,
@@ -125,6 +126,11 @@ export class CreateConfigDto implements Omit<Config, 'id'> {
   @IsOptional()
   @ApiProperty({ type: String, required: false, example: 'transfer-money' })
   name: string;
+
+  @IsEnum(ConfigType)
+  @IsOptional()
+  @ApiProperty({ enum: ConfigType })
+  type: ConfigType = ConfigType.SEQUENTIAL;
 
   @IsEnum(ConfigStatus)
   @IsOptional()

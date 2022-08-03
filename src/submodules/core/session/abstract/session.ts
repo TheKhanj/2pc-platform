@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { Executor } from '../../executor/types/executor';
 
 export abstract class Session {
-  protected readonly id: string;
+  public readonly id: string;
 
   constructor(protected readonly executors: Executor[]) {
     this.id = uuid();

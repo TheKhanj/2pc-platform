@@ -43,9 +43,15 @@ export enum ConfigStatus {
   INACTIVE = 'inactive',
 }
 
+export enum ConfigType {
+  SEQUENTIAL = 'sequential',
+  PARALLEL = 'parallel',
+}
+
 export type Config = {
   id: Types.ObjectId;
   name: string;
+  type: ConfigType;
   status: ConfigStatus;
   variables: Record<string, any>;
   states: State[];

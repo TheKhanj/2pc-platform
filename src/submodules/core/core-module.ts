@@ -13,6 +13,7 @@ import { HttpResourceService } from './resources/http/http-resource-service';
 import { CoreExecutorFactory } from './executor/core-executor-factory';
 import { VariableStorageUpdater } from './storage/updaters/variable-storage-updater';
 import { ExtendedVariableStorage } from './expression/extended-variable-storage';
+import { EXECUTORS_TOKEN } from './constants';
 
 @Module({
   providers: [
@@ -47,7 +48,7 @@ import { ExtendedVariableStorage } from './expression/extended-variable-storage'
             ExecutorFactory,
             VariableStorageUpdater,
             {
-              provide: 'Executors',
+              provide: EXECUTORS_TOKEN,
               inject: [ExecutorFactory],
               useFactory: (executorFactory: ExecutorFactory) => {
                 return config.states.map((state) => {

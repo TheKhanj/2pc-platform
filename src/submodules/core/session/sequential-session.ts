@@ -3,6 +3,7 @@ import { Inject, Injectable } from '@nestjs/common';
 
 import { Session } from './abstract/session';
 import { Executor } from '../executor/types/executor';
+import { EXECUTORS_TOKEN } from '../constants';
 import { VariableStorage } from '../storage/variable-storage';
 import { CommitFailedError } from './errors/commit-failed-error';
 import { RollbackFailedError } from './errors/rollback-failed-error';
@@ -11,7 +12,7 @@ import { COMMIT_RETRY_COUNT, ROLLBACK_RETRY_COUNT } from './constants';
 @Injectable()
 export class SequentialSession extends Session {
   constructor(
-    @Inject('Executors')
+    @Inject(EXECUTORS_TOKEN)
     protected readonly executors: Executor[],
     protected readonly storage: VariableStorage,
   ) {
