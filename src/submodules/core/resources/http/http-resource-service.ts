@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common';
 
 import { HttpResult } from 'src/submodules/core/results/http-result';
 import { HttpCommand } from 'src/submodules/core/commands/http/http-command';
-import { ParseUrlError } from '../errors/parse-url-error';
 import { ResourceService } from '../types/resource-service';
 
 @Injectable()
