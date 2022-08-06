@@ -1,6 +1,6 @@
 import { Method } from 'axios';
 
-export class HttpCommand<Body = any> {
+export class HttpCommand {
   constructor(
     public readonly method: Method,
     public readonly url: string,

@@ -1,0 +1,5 @@
+describe('SessionFactory', ()=>{
+  beforeAll(async ()=>{
+
+  })
+})

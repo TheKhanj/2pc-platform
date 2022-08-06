@@ -1,21 +1,21 @@
-import { HttpResourceService } from './http-resource-service';
+import { HttpService } from './http-service';
 
-describe('HttpResourceService', () => {
-  let httpResource: HttpResourceService;
+describe('HttpService', () => {
+  let httpService: HttpService;
 
   beforeAll(() => {
-    httpResource = new HttpResourceService();
+    httpService = new HttpService();
   });
 
   it('service should be defined', () => {
-    expect(HttpResourceService).toBeDefined();
+    expect(HttpService).toBeDefined();
   });
 
   describe('url parsing should work properly', () => {
     let parse: (url: string, params: any) => string;
 
     beforeAll(() => {
-      parse = httpResource['parseUrl'];
+      parse = httpService['parseUrl'];
     });
 
     it('basic url parsing should work', () => {

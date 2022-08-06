@@ -1,11 +1,8 @@
 import { HttpResult } from 'src/submodules/core/results/http-result';
-import { HttpCommand } from 'src/submodules/core/commands/http/http-command';
+import { HttpCommand } from 'src/submodules/core/commands/http-command';
 import { ResourceService } from 'src/submodules/core/resources/types/resource-service';
 
-export const mockHttpResourceService: ResourceService<
-  HttpCommand,
-  HttpResult
-> = {
+export const mockHttpService: ResourceService<HttpCommand, HttpResult> = {
   call: jest.fn(async () => {
     return {
       status: 200,

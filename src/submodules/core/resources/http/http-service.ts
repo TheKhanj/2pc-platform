@@ -2,12 +2,11 @@ import axios from 'axios';
 import { Injectable } from '@nestjs/common';
 
 import { HttpResult } from 'src/submodules/core/results/http-result';
-import { HttpCommand } from 'src/submodules/core/commands/http/http-command';
+import { HttpCommand } from '../../commands/http-command';
 import { ResourceService } from '../types/resource-service';
 
 @Injectable()
-export class HttpResourceService
-  implements ResourceService<HttpCommand, HttpResult> {
+export class HttpService implements ResourceService<HttpCommand, HttpResult> {
   async call<T = any>(command: HttpCommand): Promise<HttpResult<T>> {
     const res = await axios.request({
       method: command.method,

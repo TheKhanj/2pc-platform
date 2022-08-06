@@ -13,14 +13,26 @@ export class ExecutorFactory {
     private readonly variableStorageUpdater: VariableStorageUpdater,
   ) {}
 
-  create(state: State): Executor {
-    const coreExecutors = (['start', 'commit', 'rollback'] as const).reduce(
-      (ret, method) => {
-        ret[method] = this.coreExecutorFactory.create(state.resources[method]);
-        return ret;
+  async create(state: State): Promise<Executor> {
+    const promises = (['start', 'commit', 'rollback'] as const).map(
+      async (method) => {
+        return {
+          method,
+          executor: await this.coreExecutorFactory.create(
+            state.resources[method],
+          ),
+        };
       },
-      {},
-    ) as { [key in 'start' | 'commit' | 'rollback']: CoreExecutor };
+    );
+
+    const executors = await Promise.all(promises);
+
+    const coreExecutors = executors.reduce((ret, exec) => {
+      ret[exec.method] = exec.executor;
+      return ret;
+    }, {}) as {
+      [key in 'start' | 'commit' | 'rollback']: CoreExecutor;
+    };
 
     return new Executor(
       state.name,
