@@ -5,7 +5,6 @@ import { Config } from '../types/transaction-declaration';
 import { Storage } from '../storage/storage';
 import { Session } from './abstract/session';
 import { Executor } from '../executor/types/executor';
-import { AsyncStorage } from '../storage/async-storage';
 import { SessionStorage } from '../storage/session-storage';
 import { VariableStorage } from '../storage/variable-storage';
 import { ExecutorFactory } from '../executor/executor-factory';
